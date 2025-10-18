@@ -1,9 +1,10 @@
 import React from 'react';
+import CategoryNews from '../Components/HomeLayout/CategoryNews';
 
 const Home = () => {
     return (
         <div>
-            Home Page
+            <CategoryNews/>
         </div>
     );
 };
