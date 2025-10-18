@@ -6,7 +6,7 @@ const SocialLogin = () => {
   return (
     <div>
       <h3 className="font-bold">Login With</h3>
-      <div className="grid gap-3 mt-3">
+      <div className="grid gap-3 mt-5">
         <button className="btn btn-outline btn-primary font-semibold">
           <FcGoogle size={24}/> Login With Google
         </button>
