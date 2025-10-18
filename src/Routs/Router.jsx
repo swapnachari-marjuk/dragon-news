@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router";
 import HomeLayout from "../Layouts/HomeLayout";
 import Home from "../Pages/Home";
 import CategoryNews from "../Components/HomeLayout/CategoryNews";
+import AuthLayout from "../Layouts/AuthLayout";
+import Login from "../Components/AuthLayout/Login";
+import Register from "../Components/AuthLayout/Register";
 
 const router = createBrowserRouter([
   {
@@ -16,11 +19,22 @@ const router = createBrowserRouter([
         path: "/category/:id",
         Component: CategoryNews,
         loader: () => fetch("/news.json"),
-        // hydrateFallbackElement: (
-        //   <span className="loading loading-dots loading-xl"></span>
-        // ),
       },
     ],
+  },
+  {
+    path:'/auth',
+    Component: AuthLayout,
+    children:[
+      {
+        path:'/auth/login',
+        Component: Login 
+      },
+      {
+        path:'/auth/register',
+        Component: Register
+      }
+    ]
   },
   {
     path: "/news",
