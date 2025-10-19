@@ -5,6 +5,9 @@ import CategoryNews from "../Components/HomeLayout/CategoryNews";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Components/AuthLayout/Login";
 import Register from "../Components/AuthLayout/Register";
+import NewsDetails from "../Components/NewsDetails";
+import PrivetRout from "../Provider/PrivetRout";
+import Loading from "../Components/Loading";
 
 const router = createBrowserRouter([
   {
@@ -19,26 +22,33 @@ const router = createBrowserRouter([
         path: "/category/:id",
         Component: CategoryNews,
         loader: () => fetch("/news.json"),
+        hydrateFallbackElement: <Loading/>
       },
     ],
   },
   {
-    path:'/auth',
+    path: "/auth",
     Component: AuthLayout,
-    children:[
+    children: [
       {
-        path:'/auth/login',
-        Component: Login 
+        path: "/auth/login",
+        Component: Login,
       },
       {
-        path:'/auth/register',
-        Component: Register
-      }
-    ]
+        path: "/auth/register",
+        Component: Register,
+      },
+    ],
   },
   {
-    path: "/news",
-    element: <h3 className="text-2xl text-center">News</h3>,
+    path: "/news-details/:id",
+    element: (
+      <PrivetRout>
+        <NewsDetails></NewsDetails>
+      </PrivetRout>
+    ),
+    loader: () => fetch("/news.json"),
+    hydrateFallbackElement: <Loading/>
   },
 ]);
 

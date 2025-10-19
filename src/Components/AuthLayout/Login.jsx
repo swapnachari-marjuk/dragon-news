@@ -1,19 +1,21 @@
 import React, { use } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import AuthContext from "../../Provider/AuthContext";
 
 const Login = () => {
-  const { logInUser,setUser } = use(AuthContext);
+  const { logInUser, setUser } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleLogIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     logInUser(email, password)
       .then((result) => {
-        console.log(result.user);
-        setUser(result.user)
-        alert("Logged in successfully.");
-        e.target.reset()
+        setUser(result.user);
+        // alert("Logged in successfully.");
+        e.target.reset();
+        navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((err) => {
         alert(err.message);
@@ -31,6 +33,7 @@ const Login = () => {
               name="email"
               className="input"
               placeholder="Email"
+              required
             />
             <label className="label">Password</label>
             <input
@@ -38,6 +41,7 @@ const Login = () => {
               name="password"
               className="input"
               placeholder="Password"
+              required
             />
             <div>
               <a className="link link-hover">Forgot password?</a>

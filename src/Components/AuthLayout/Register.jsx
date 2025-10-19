@@ -1,18 +1,30 @@
 import React, { use } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import AuthContext from "../../Provider/AuthContext";
 
 const Register = () => {
-  const { createUser } = use(AuthContext);
+  const { setUser, createUser, updateUser } = use(AuthContext);
+  const navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
+    const name = e.target.name.value;
+    const photo = e.target.photo.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
     createUser(email, password)
       .then((result) => {
-        console.log(result.user);
-        alert("Account Created Successfully.");
-        e.target.reset()
+        const user = result.user;
+
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            setUser(user);
+          });
+        e.target.reset();
       })
       .catch((err) => {
         alert(err.message);
@@ -32,6 +44,9 @@ const Register = () => {
               name="name"
               className="input"
               placeholder="Name"
+              minLength={5}
+              maxLength={25}
+              required
             />
             <label className="label">Photo URL</label>
             <input
@@ -46,6 +61,7 @@ const Register = () => {
               name="email"
               className="input"
               placeholder="Email"
+              required
             />
             <label className="label">Password</label>
             <input
@@ -53,6 +69,7 @@ const Register = () => {
               name="password"
               className="input"
               placeholder="Password"
+              required
             />
             <div></div>
             <button type="submit" className="btn btn-neutral mt-4">
