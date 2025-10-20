@@ -19,6 +19,7 @@ const CategoryNews = () => {
       setFilteredNews(filteredData);
     }
   }, [id, data]);
+  console.log(filteredNews);
   return (
     <div >
       <h2 className="font-bold">Total {filteredNews?.length} news found</h2>
